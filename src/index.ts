@@ -1,6 +1,6 @@
 import * as Book from "./domain/book"
 import * as Dialer from "./domain/dialer"
-import { Maybe, Just, None } from "./monads/maybe"
+import { Maybe, Just } from "./monads/maybe"
 
 function read_name(): Maybe<string> {
     return Just("josselin auguste")
@@ -8,17 +8,10 @@ function read_name(): Maybe<string> {
 
 console.log("We want monads")
 
-const first_name = read_name()
+read_name()
     .map((n) => n.split(" ")[0])
     .map((n) => n.toUpperCase()) 
     .map((n) => { console.log(`Dialing ${n}...`); return n})
-if (first_name.isValue()) {
-    const contact = Book.find(first_name.value as string)
-    if (contact.isValue()) {
-        const response = Dialer.dial(contact.value as string)
-        if (response.isValue()) {
-            console.log("Call OK.")
-        }
-    }
-}
-
+    .bind((n) => Book.find(n))
+    .bind((c) => Dialer.dial(c))
+    .map((r) => { console.log("Call OK."); return r})

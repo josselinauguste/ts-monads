@@ -10,9 +10,15 @@ export class Maybe<T> {
   }
 
   map<G>(f: (value: T) => G): Maybe<G> {
-    if (this.value !== undefined)
-      return Just(f(this.value))
-    return None<G>()
+    if (this.value === undefined)
+      return None<G>()
+    return Just(f(this.value))
+  }
+
+  bind<G>(f: (value: T) => Maybe<G>): Maybe<G> {
+    if (this.value === undefined)
+      return None<G>()
+    return f(this.value)
   }
 }
 
