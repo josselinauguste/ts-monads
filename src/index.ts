@@ -1,9 +1,9 @@
 import * as Book from "./domain/book"
 import * as Dialer from "./domain/dialer"
-import { Maybe } from "./monads/maybe"
+import { Maybe, Just, None } from "./monads/maybe"
 
 function read_name(): Maybe<string> {
-    return new Maybe("josselin auguste")
+    return Just("josselin auguste")
 }
 
 console.log("We want monads")

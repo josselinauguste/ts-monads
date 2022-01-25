@@ -1,4 +1,4 @@
-import { Maybe } from "../monads/maybe"
+import { Maybe, Just } from "../monads/maybe"
 
 interface Book {
   [id: string]: string
@@ -9,5 +9,5 @@ const BOOK: Book = {
 }
 
 export function find(name: string): Maybe<string> {
-    return new Maybe(BOOK[name])
+    return Just(BOOK[name])
 }
