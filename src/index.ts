@@ -8,19 +8,16 @@ function read_name(): Maybe<string> {
 
 console.log("We want monads")
 
-const name = read_name()
-if (name.isValue()) {
-    let first_name = name.value?.split(" ")[0]
-    if (first_name) {
-        first_name = first_name.toUpperCase()
-        console.log("Dialing {first_name}...")
-
-        const contact = Book.find(first_name)
-        if (contact.isValue()) {
-            const response = Dialer.dial(contact.value as string)
-            if (response.isValue()) {
-                console.log("Call OK.")
-            }
+const first_name = read_name()
+    .map((n) => n.split(" ")[0])
+    .map((n) => n.toUpperCase()) 
+    .map((n) => { console.log(`Dialing ${n}...`); return n})
+if (first_name.isValue()) {
+    const contact = Book.find(first_name.value as string)
+    if (contact.isValue()) {
+        const response = Dialer.dial(contact.value as string)
+        if (response.isValue()) {
+            console.log("Call OK.")
         }
     }
 }
