@@ -20,6 +20,12 @@ export class Maybe<T> {
       return None<G>()
     return f(this.value)
   }
+
+  apply(x: Maybe<any>): Maybe<any> {
+    if (this.value === undefined || x.value === undefined || !(this.value instanceof Function))
+      return None()
+    return Just(this.value(x.value))
+  }
 }
 
 export function None<T>() {

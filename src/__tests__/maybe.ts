@@ -52,5 +52,12 @@ describe("Maybe", () => {
 
     expect(m.bind(f).bind(g)).toEqual(m.bind((v) => f(v).bind(g)))
   })
+
+  test("Applicative functor", () => {
+    const f = (a: number) => (b: number) => a - b
+    const result = Just(f).apply(Just(1)).apply(Just(1))
+
+    expect(result).toEqual(Just(0))
+  })
 })
 
